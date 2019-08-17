@@ -5,11 +5,21 @@ if (isset($_GET['page'])) {
     $page = 'main';
 }
 
-$menu = ['q1' => 'Задание 1',
+/*$menu = ['q1' => 'Задание 1',
     'q2' => 'Задание 2',
     'q3' => 'Задания 3, 8',
     'q4-5' => 'Задания 4-5, 9',
     'q6' => 'Задание 6',
+    'q7' => 'Задание 7',];*/
+
+$menu = ['main' => 'Главная',
+    'Легко' => [
+        'q1' => 'Задание 1',
+        'q2' => 'Задание 2',
+        'q3' => 'Задания 3, 8',],
+    'Трудно' => [
+        'q4-5' => 'Задания 4-5, 9',
+        'q6' => 'Задание 6',],
     'q7' => 'Задание 7',];
 
 switch ($page) {
@@ -34,7 +44,7 @@ function renderTempate($page, $params = [])
     extract($params);
 
     if(isset($params['menu'])) {
-        include "menu.php";
+        renderMenu($params['menu']);
     }
 
     $filename = $page . ".php";
@@ -46,4 +56,13 @@ function renderTempate($page, $params = [])
     }
 
     return ob_get_clean();
+}
+
+function renderMenu($menu, $key = null) {
+
+    ob_start();
+
+    include "menu.php";
+
+    return ob_end_flush();
 }

@@ -2,7 +2,9 @@
 <?php
 $array = [
     'Московская область' => [
+    'Московский район' => [ // Добавил вложенность для проверки
         'Москва', 'Зеленоград', 'Клин',
+        ],
     ],
     'Ленинградская область' => [
         'Санкт-Петербург', 'Всеволожск', 'Павловск', 'Кронштадт',
@@ -12,17 +14,24 @@ $array = [
     ],
 ];
 
-foreach ($array as $key => $item) {
-    echo $key . ': <br>' . implode(', ', $item) .'<br>';
-}
+$regexp = "/^К./ui";
 
-foreach ($array as $key => $item) {
-    $regexp = "/^К./ui";
-    $filteredCity = [];
-    foreach ($item as $city) {
-        if (preg_match($regexp, $city)) {
-            $filteredCity[] = $city;
+function renderCity($array, $regexp = '/./') {
+    foreach ($array as $key => $item) {
+        echo $key . ': <br>';
+        if (!isset($item[0])) {
+            renderCity($item);
+        } else {
+            $filteredCity = [];
+            foreach ($item as $city) {
+                if (preg_match($regexp, $city)) {
+                    $filteredCity[] = $city;
+                }
+            }
+            echo implode(', ', $filteredCity) . '<br>';
         }
     }
-    echo $key . ': <br>' . implode(', ', $filteredCity) .'<br>';
 }
+
+renderCity($array);
+renderCity($array, $regexp);
