@@ -1,0 +1,3 @@
+
+
+<p><?=$newscontent['text']?> </p>
